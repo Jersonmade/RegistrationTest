@@ -51,6 +51,7 @@ public class RegistrationPage {
     private WebElement cityDropdown;
     @FindBy(id = "submit")
     private WebElement submitBtn;
+
     public void inputFirstName(String firstName) {
         firstNameField.sendKeys(firstName);
     }
@@ -59,12 +60,12 @@ public class RegistrationPage {
         lastNameField.sendKeys(lastName);
     }
 
-    public void  inputMail(String mail) {
+    public void inputMail(String mail) {
         mailField.sendKeys(mail);
     }
 
     public void selectGender() {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", genderRadio);
     }
 
@@ -73,27 +74,25 @@ public class RegistrationPage {
     }
 
     public void selectDateOfBirth() {
-        int seconds = 10;
-
         dateOfBirthInput.click();
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds((long) seconds));
+        wait = new WebDriverWait(driver, Duration.ofSeconds((long) 10));
         wait.until(ExpectedConditions.visibilityOf(dateOfBirthBtn)).click();
     }
 
     public void selectSubjects(String str) {
-        wait = new WebDriverWait(driver, Duration.ofSeconds((long)10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds((long) 10));
         subjectsInput.sendKeys(str);
         WebElement dropdownOption = wait
                 .until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'subjects-auto-complete__option')]")));
+                        .visibilityOfElementLocated(By.xpath("//div[contains(@class, 'subjects-auto-complete__option')]")));
 
         Actions actions = new Actions(driver);
         actions.moveToElement(dropdownOption).click().build().perform();
     }
 
     public void selectHobbies() {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", sportsHobby);
         js.executeScript("arguments[0].click();", musicHobby);
     }
@@ -109,7 +108,7 @@ public class RegistrationPage {
     public void selectStateAndCity() {
         wait.until(ExpectedConditions.elementToBeClickable(stateDropdown));
 
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].scrollIntoView(true);", stateDropdown);
 
         stateDropdown.click();

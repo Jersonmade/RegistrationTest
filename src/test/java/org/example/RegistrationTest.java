@@ -1,26 +1,33 @@
 package org.example;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
+@Epic("Registration Test Epic")
+@Feature("Fill in the registration form Feature")
 public class RegistrationTest {
     public static WebDriver driver;
     public static RegistrationPage registrationPage;
     public static Modal modal;
-    private String picturePath = "C:\\Users\\Asus\\OneDrive\\Рабочий стол\\Tests\\RegistrationTest\\src\\imgs\\pr3.jpg";
+    public static String picturePath = "C:\\Users\\Asus\\OneDrive\\Рабочий стол\\Tests\\RegistrationTest\\src\\imgs\\pr3.jpg";
 
 
     @BeforeEach
     public void setup() {
-        System.setProperty("webdriver.gecko.driver", "C:\\tools\\geckodriver-v0.34.0-win64\\geckodriver.exe");
+        System.setProperty(ConfProperties.getProperty("chrome-driver"), ConfProperties.getProperty("chrome-driver-path"));
 
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         registrationPage = new RegistrationPage(driver);
         modal = new Modal(driver);
 
@@ -28,13 +35,15 @@ public class RegistrationTest {
 
         driver.manage().window().maximize();
 
-        driver.get(ConfProperties.getProperty("registrationPage"));
+        driver.get(ConfProperties.getProperty("registration-page"));
     }
 
     @Test
+    @Story("User tries to register the system")
+    @Description("Validation of entered data")
     public void registrationTest() {
-        registrationPage.inputFirstName(ConfProperties.getProperty("firstName"));
-        registrationPage.inputLastName(ConfProperties.getProperty("lastName"));
+        registrationPage.inputFirstName(ConfProperties.getProperty("first-name"));
+        registrationPage.inputLastName(ConfProperties.getProperty("last-name"));
         registrationPage.inputMail(ConfProperties.getProperty("email"));
         registrationPage.selectGender();
         registrationPage.inputMobile(ConfProperties.getProperty("mobile"));
@@ -42,13 +51,14 @@ public class RegistrationTest {
         registrationPage.selectSubjects("a");
         registrationPage.selectHobbies();
         registrationPage.selectPicture(picturePath);
-        registrationPage.enterCurrentAddress(ConfProperties.getProperty("currentAddress"));
+        registrationPage.enterCurrentAddress(ConfProperties.getProperty("current-address"));
         registrationPage.selectStateAndCity();
         registrationPage.submit();
 
-        Assertions.assertEquals(modal.getModalHeader(), ConfProperties.getProperty("modalHeader"));
+        Assertions.assertEquals(modal.getModalHeader(), ConfProperties.getProperty("modal-header"));
+
         Assertions.assertEquals(modal.getStudentName(),
-                ConfProperties.getProperty("firstName") + " " + ConfProperties.getProperty("lastName"));
+                ConfProperties.getProperty("first-name") + " " + ConfProperties.getProperty("last-name"));
         Assertions.assertEquals(modal.getStudentEmail(), ConfProperties.getProperty("email"));
         Assertions.assertEquals(modal.getGender(), ConfProperties.getProperty("gender"));
         Assertions.assertEquals(modal.getMobile(), ConfProperties.getProperty("mobile"));
@@ -56,8 +66,8 @@ public class RegistrationTest {
         Assertions.assertEquals(modal.getSubjects(), ConfProperties.getProperty("subjects"));
         Assertions.assertEquals(modal.getHobbies(), ConfProperties.getProperty("hobbies"));
         Assertions.assertEquals(modal.getPicture(), ConfProperties.getProperty("picture"));
-        Assertions.assertEquals(modal.getAddress(), ConfProperties.getProperty("currentAddress"));
-        Assertions.assertEquals(modal.getStateAndCity(), ConfProperties.getProperty("stateAndCity"));
+        Assertions.assertEquals(modal.getAddress(), ConfProperties.getProperty("current-address"));
+        Assertions.assertEquals(modal.getStateAndCity(), ConfProperties.getProperty("state-and-city"));
     }
 
     @AfterEach
