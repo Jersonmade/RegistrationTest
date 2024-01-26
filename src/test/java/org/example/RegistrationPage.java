@@ -103,6 +103,7 @@ public class RegistrationPage {
 
     public void enterCurrentAddress(String currentAddress) {
         currentAddressTextArea.sendKeys(currentAddress);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('style', 'height: 50px;')", currentAddressTextArea);
     }
 
     public void selectStateAndCity() {

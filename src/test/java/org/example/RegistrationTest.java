@@ -1,5 +1,6 @@
 package org.example;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -8,15 +9,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.concurrent.TimeUnit;
 
 @Epic("Registration Test Epic")
 @Feature("Fill in the registration form Feature")
 public class RegistrationTest {
+    public static ChromeOptions options;
     public static WebDriver driver;
     public static RegistrationPage registrationPage;
     public static Modal modal;
@@ -24,16 +27,17 @@ public class RegistrationTest {
 
 
     @BeforeEach
-    public void setup() {
-        System.setProperty(ConfProperties.getProperty("chrome-driver"), ConfProperties.getProperty("chrome-driver-path"));
+    public void setUp() {
+        WebDriverManager.chromedriver().setup();
+        options = new ChromeOptions();
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        driver = new ChromeDriver(options);
 
-        driver = new ChromeDriver();
         registrationPage = new RegistrationPage(driver);
         modal = new Modal(driver);
 
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         driver.get(ConfProperties.getProperty("registration-page"));
     }
@@ -72,6 +76,7 @@ public class RegistrationTest {
 
     @AfterEach
     public void quitDriver() {
+        driver.close();
         driver.quit();
     }
 }
