@@ -15,6 +15,8 @@
         <selenium.version>4.16.1</selenium.version>
         <junit.jupiter.version>5.10.1</junit.jupiter.version>
         <allure-junit5.version>2.25.0</allure-junit5.version>
+        <selenium-chrome-driver.version>4.16.1</selenium-chrome-driver.version>
+        <webdriver.version>5.4.1</webdriver.version>
         <aspectj.version>1.9.21</aspectj.version>
         <allure.version>2.24.0</allure.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
@@ -35,6 +37,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allure-junit5.version}</version>
@@ -44,13 +53,13 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
-            <version>4.16.1</version>
+            <version>${selenium-chrome-driver.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.4.1</version>
+            <version>${webdriver.version}</version>
         </dependency>
     </dependencies>
 
